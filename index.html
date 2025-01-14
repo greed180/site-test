@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>쿠팡 바로가기</title>
+
+  <!-- PWA 관련 Manifest 링크 -->
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- 앱의 기본 색상 설정 -->
+  <meta name="theme-color" content="#ffffff">
+
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f8f8f8;
+    }
+    a {
+      padding: 10px 20px;
+      background-color: #ff6347;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <!-- 홈 화면에 추가할 링크 -->
+  <a href="https://coupa.ng/cg5QgZ">쿠팡 바로가기</a>
+
+  <script>
+    // '홈 화면에 추가' 팝업 처리
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      const addButton = document.createElement('button');
+      addButton.textContent = '홈 화면에 추가';
+      addButton.style.position = 'absolute';
+      addButton.style.bottom = '20px';
+      addButton.style.left = '50%';
+      addButton.style.transform = 'translateX(-50%)';
+      document.body.appendChild(addButton);
+      addButton.addEventListener('click', () => {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('사용자가 홈 화면에 추가했습니다.');
+          } else {
+            console.log('사용자가 홈 화면에 추가를 취소했습니다.');
+          }
+          deferredPrompt = null;
+          addButton.remove();
+        });
+      });
+    });
+  </script>
+</body>
+</html>
